@@ -43,8 +43,8 @@ CGPoint getCursor() {
     } else {
         if (self->mouseMonitor == nil) {
             fixedY = getCursor().y;
-            minY = fixedY - 5.0;
-            maxY = fixedY + 5.0;
+            minY = fixedY - 1.0;
+            maxY = fixedY + 1.0;
             self->mouseMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler: ^void(NSEvent*ev){
                 [self onMouseEvent:ev];
             }];
@@ -64,6 +64,7 @@ CGPoint getCursor() {
     }
     if (limit) {
         CGError err = CGWarpMouseCursorPosition(location);
+        CGSetLocalEventsSuppressionInterval(0.01);
         if (err) {
             NSAlert *alert = [[NSAlert alloc] init];
             [alert addButtonWithTitle:@"OK"];
